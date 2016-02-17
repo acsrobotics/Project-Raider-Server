@@ -5,11 +5,17 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.opencv.core.Core;
+
 import module.DisplayFrame;
 import module.ImageModule;
 import module.VideoCap.Status;
 
 public class VisionServer implements Runnable {
+	
+	static {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+	}
 	
 	public static final int X = 0;
 	public static final int Y = 1;
@@ -37,6 +43,8 @@ public class VisionServer implements Runnable {
 				System.out.println("Recieved client request...");
 				
 				Status statusCode = this.displayFrame.getStatus();
+				
+				System.out.println("Camera status: " + statusCode.getDeclaringClass().getName());
 				
 				if(statusCode.equals(Status.INVALID_CAMERA)){
 					// TODO Handle error

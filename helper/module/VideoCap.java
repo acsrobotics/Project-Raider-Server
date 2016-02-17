@@ -34,9 +34,9 @@ public class VideoCap {
 	}
 	
 	
-	public static final int RAW = 0;
-	public static final int THRESHED = 1;
-	public static final int PROCESSED= 2;
+	public static final int RAW       = 0;
+	public static final int THRESHED  = 1;
+	public static final int PROCESSED = 2;
 	
 	VideoCapture cap;
 	ImageModule imgModule;
@@ -65,9 +65,9 @@ public class VideoCap {
 		imgModule.processCurrentFrame();
 		
 		ArrayList<BufferedImage> results = new ArrayList<>(3);
-		results.set(0, toBufferedImage(imgModule.getImgOriginal()));
-		results.set(1, toBufferedImage(imgModule.getImgThresholded()));
-		results.set(2, toBufferedImage(imgModule.getImgProcessed()));
+		results.add(toBufferedImage(imgModule.getImgOriginal()));
+		results.add(toBufferedImage(imgModule.getImgThresholded()));
+		results.add(toBufferedImage(imgModule.getImgProcessed()));
 		
 		return results.toArray(new BufferedImage[3]);
 	}

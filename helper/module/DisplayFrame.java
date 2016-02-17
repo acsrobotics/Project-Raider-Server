@@ -42,9 +42,12 @@ public class DisplayFrame extends JFrame {
 		setBounds(100,100,1000, 750);
 		parentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(parentPane);
+		setVisible(true);
 		
 		backgroundThread = new UpdateThread();
 		backgroundThread.start();
+		
+		System.out.println("DisplayFrame initialization completed.");
 	}
 	
 	public Status getStatus(){
@@ -65,8 +68,9 @@ public class DisplayFrame extends JFrame {
 			g = processedPane.getGraphics();
 			g.drawImage(imgs[VideoCap.PROCESSED], 0, 0, this);
 			
+		} catch (NullPointerException e){
+			System.err.println("VideoCap Error: " + "Unable to update frame");
 		} catch (IOException e) {
-			
 			e.printStackTrace();
 		}
 	}

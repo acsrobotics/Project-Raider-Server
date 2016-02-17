@@ -26,74 +26,22 @@ public class ImageModule{
 		
 		imgInput = processor
 					.setImage(this.getImgOriginal())
-					.resizeTo(500, 375)
 					.getImage();
 		
-		// thresh red
+		this.setImgOriginal(this.getImgOriginal());
 		
-		Mat imgThRed = processor
-						.setImage(imgInput)
-						.toHSV()
-						.setLowHSV(150, 120, 40)
-						.setHighHSV(179, 255, 255)
-						.threshold()
-						.getImage();
-		
-		// thresh black
-		
-		Mat imgThBlack = processor
-						.setLowHSV(1, 1, 1)
-						.setHighHSV(179, 255, 75)
-						.setImage(imgInput)
-						.toHSV()
-						.threshold()
-						.getImage();
-		
-		// thresh green
-		
-		Mat imgThGreen = processor
-						.setLowHSV(90, 110, 85)
-						.setHighHSV(140, 255, 255)
-						.setImage(imgInput)
-						.toHSV()
-						.threshold()
-						.getImage();
-		
-		// combined 
-		
-		Mat imgCombined = processor
-							.getBlackEmptyMat(imgThBlack)
-							.convertToThreeChannel()
-							.getImage();
 		
 		this.setImgThresholded(processor
-								.setLowHSV(1, 1, 1)
-								.setHighHSV(179, 255, 255)
-								.setImage(imgCombined)
-								.combineWith(new CvPipeline()
-												.setImage(imgThBlack)
-												.convertToThreeChannel()
-												.getImage(), 0.0)
-								.combineWith(new CvPipeline()
-													.setImage(imgThGreen)
-													.convertToThreeChannel()
-													.getImage(), 0.5)
+								.setImage(imgInput)
+								.convertToThreeChannel()
+								.toHSV()
+								.setLowHSV(20, 40, 40)
+								.setHighHSV(30, 255, 255)
 								.threshold()
 								.convertToThreeChannel()
-								.combineWith(new CvPipeline()
-													.setImage(imgThRed)
-													.convertToThreeChannel()
-													.getImage(), 0.5)
-								.setLowHSV(0, 0, 0)
-								.setHighHSV(179, 255, 10)
-								.threshold()
-								.invert()
 								.getImage());
 		
-		
 		this.setImgProcessed(processor
-							.setImage(imgCombined)
-							.convertToThreeChannel()
 							.toBGR()
 							.toGray()
 							.findContours()
@@ -101,6 +49,79 @@ public class ImageModule{
 							.reduceRectsToOne()
 							.drawRects(imgInput)
 							.getImage());
+		
+		// thresh red
+		
+//		Mat imgThRed = processor
+//						.setImage(imgInput)
+//						.toHSV()
+//						.setLowHSV(150, 120, 40)
+//						.setHighHSV(179, 255, 255)
+//						.threshold()
+//						.getImage();
+//		
+//		// thresh black
+//		
+//		Mat imgThBlack = processor
+//						.setLowHSV(1, 1, 1)
+//						.setHighHSV(179, 255, 75)
+//						.setImage(imgInput)
+//						.toHSV()
+//						.threshold()
+//						.getImage();
+//		
+//		// thresh green
+//		
+//		Mat imgThGreen = processor
+//						.setLowHSV(90, 110, 85)
+//						.setHighHSV(140, 255, 255)
+//						.setImage(imgInput)
+//						.toHSV()
+//						.threshold()
+//						.getImage();
+//		
+//		// combined 
+//		
+//		Mat imgCombined = processor
+//							.getBlackEmptyMat(imgThBlack)
+//							.convertToThreeChannel()
+//							.getImage();
+//		
+//		this.setImgThresholded(processor
+//								.setLowHSV(1, 1, 1)
+//								.setHighHSV(179, 255, 255)
+//								.setImage(imgCombined)
+//								.combineWith(new CvPipeline()
+//												.setImage(imgThBlack)
+//												.convertToThreeChannel()
+//												.getImage(), 0.0)
+//								.combineWith(new CvPipeline()
+//													.setImage(imgThGreen)
+//													.convertToThreeChannel()
+//													.getImage(), 0.5)
+//								.threshold()
+//								.convertToThreeChannel()
+//								.combineWith(new CvPipeline()
+//													.setImage(imgThRed)
+//													.convertToThreeChannel()
+//													.getImage(), 0.5)
+//								.setLowHSV(0, 0, 0)
+//								.setHighHSV(179, 255, 10)
+//								.threshold()
+//								.invert()
+//								.getImage());
+//		
+//		
+//		this.setImgProcessed(processor
+//							.setImage(imgCombined)
+//							.convertToThreeChannel()
+//							.toBGR()
+//							.toGray()
+//							.findContours()
+//							.computeRectsFromContours()
+//							.reduceRectsToOne()
+//							.drawRects(imgInput)
+//							.getImage());
 		
 		this.updateSharedBuffer(processor.computeRectRelativeDifference());
 	}
@@ -118,7 +139,7 @@ public class ImageModule{
 	
 	
 	public synchronized void setImgOriginal(Mat imgOriginal) {
-		this.imgOriginal = imgOriginal;
+		this.imgOriginal = new CvPipeline().setImage(imgOriginal).resizeTo(640, 480).getImage();
 	}
 
 	public synchronized void setImgThresholded(Mat imgThresholded) {
