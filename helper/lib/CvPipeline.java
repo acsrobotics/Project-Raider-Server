@@ -163,6 +163,13 @@ public class CvPipeline {
 		return this;
 	}
 	
+	public CvPipeline resizeTo(int width, int height){
+		Mat out = new Mat();
+		Imgproc.resize(this.Image, out, new Size(width, height));
+		this.Image = out;
+		return this;
+	}
+	
 	public CvPipeline momentTrack(final Mat imgOriginal, final Mat imgThresholded){
 		Mat imgProcessed = imgOriginal.clone();
 		Size size = new Size(imgOriginal.width(), imgOriginal.height());
@@ -189,6 +196,17 @@ public class CvPipeline {
 		}
 		this.Image = imgProcessed;
 		return this;
+	}
+	
+	public int[] computeRectRelativeDifference(){
+		if(this.rects.size() != 1){
+			int[] ret = {-1,-1};
+			return ret;
+		}
+		int[] center = {(int) (this.Image.size().width / 2), (int) (this.Image.size().height / 2)};
+		int[] rect = {this.rects.getFirst().x, this.rects.getFirst().y};
+		int[] difference = {rect[0] - center[0], center[1] - rect[1]};
+		return difference;
 	}
 	
 	private double widthHeightRatio(Rect rect){

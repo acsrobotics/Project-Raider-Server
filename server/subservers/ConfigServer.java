@@ -1,4 +1,4 @@
-package server;
+package subservers;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -35,7 +35,7 @@ public class ConfigServer implements Runnable {
 				client.close();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
 	}	
