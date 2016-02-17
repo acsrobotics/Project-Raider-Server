@@ -1,8 +1,11 @@
 # Raider Server
 This repository holds the server-side code for FRC2016 Sronghold. 
 The server provides three different functionalities.
-1. Expose server IP address
-2. Enable the robot to update it's configuration during the runtime
+
+1. Expose server IP address.
+
+2. Enable the robot to update it's configuration during the runtime.
+
 3. Provide vision processing capability.
 
 The main server runs three subservers
