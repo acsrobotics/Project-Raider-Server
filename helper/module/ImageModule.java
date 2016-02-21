@@ -121,6 +121,7 @@ public class ImageModule{
 //							.computeRectsFromContours()
 //							.reduceRectsToOne()
 //							.drawRects(imgInput)
+//							.drawCircleOnCenter()
 //							.getImage());
 		
 		this.updateSharedBuffer(processor.computeRectRelativeDifference());

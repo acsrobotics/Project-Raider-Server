@@ -123,6 +123,23 @@ public class CvPipeline {
 		return this;
 	}
 	
+	public CvPipeline drawCircleOnCenter(){
+		if(this.rects != null){
+			double x_center = this.Image.size().width / 2;
+			double y_center = this.Image.size().height / 2;
+			
+			// set the radius of the circle to 70% of the rectangle's width 
+			double radius = this.rects.getFirst().width / 2 * 0.70;
+			
+			Scalar color = onTarget(x_center, y_center, radius) ? 
+							new Scalar(0, 255, 0) : new Scalar(0, 0, 255);
+							
+			Core.circle(this.Image, new Point(x_center, y_center), (int) radius, color, 2);
+		}
+		
+		return this;
+	}
+	
 	public CvPipeline reduceRectsToOne(){
 		int highestPosition = 0;
 		for(int i=0; i<this.rects.size(); i++){
@@ -211,6 +228,45 @@ public class CvPipeline {
 	
 	private double widthHeightRatio(Rect rect){
 		return (double)rect.width / (double)rect.height;
+	}
+	
+	/**
+	 * calculate whether the circle is on target(rectangle) or not
+	 * @param x_center
+	 * @param y_center
+	 * @param radius
+	 * @return
+	 */
+	private boolean onTarget(double x_center, double y_center, double radius){
+		// calculate the order in x_left, x_right, y_top, y_bottom
+		Rect rect = this.rects.getFirst();
+		double[] rectangle = {
+				x_center - (rect.width / 2),
+				x_center + (rect.width / 2),
+				y_center - (rect.height / 2),
+				y_center + (rect.height / 2)
+		};
+		
+		double[] circle = {
+				x_center - radius,
+				x_center + radius,
+				y_center - radius,
+				y_center + radius
+		};
+		
+		boolean status;
+		
+		// if circle is within the rectangle 
+		if(rectangle[0] < circle[0] &&
+			rectangle[1] > circle[1] &&
+			rectangle[2] < circle[2] &&
+			rectangle[3] > circle[3]){
+			status = true;
+		}else{
+			status = false;
+		}
+		
+		return status;
 	}
 	
 	public CvPipeline convertToThreeChannel(){
