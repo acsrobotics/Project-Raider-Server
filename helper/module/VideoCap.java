@@ -11,6 +11,7 @@ import org.opencv.core.Mat;
 import org.opencv.highgui.VideoCapture;
 
 public class VideoCap {
+	
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
@@ -41,16 +42,25 @@ public class VideoCap {
 	VideoCapture cap;
 	ImageModule imgModule;
 	
+	LoggerModule proccedImgLogger;
+	Thread proccedImgLoggerThread;
+	
 	Status status;
 	
 	public VideoCap(ImageModule imgModule) {
 		cap = new VideoCapture();
 		//cap.open("http://axis-camera.local/mjpg/video.mjpg");
-		cap.open("C:\\Users\\Zhang\\Documents\\Share\\dior.mp4");
+		//cap.open("C:\\Users\\Zhang\\Documents\\Share\\dior.mp4");
+		cap.open("C:\\Users\\Zhang\\Downloads\\temp\\XX.mp4");
 		if(!cap.isOpened()){
 			this.setStatus(Status.INVALID_CAMERA);
 		}
 		this.imgModule = imgModule;
+		
+		this.proccedImgLogger = new LoggerModule("Processed.mp4");
+		
+		this.proccedImgLoggerThread = new Thread(this.proccedImgLogger);
+		this.proccedImgLoggerThread.start();
 	}
 	
 	public BufferedImage[] getOneFrame() throws IOException{
@@ -70,6 +80,9 @@ public class VideoCap {
 		results.add(toBufferedImage(imgModule.getImgThresholded()));
 		results.add(toBufferedImage(imgModule.getImgProcessed()));
 		
+		// load image to background thread to write to a file
+		this.proccedImgLogger.pendingOutputImage(results.get(PROCESSED));
+		
 		return results.toArray(new BufferedImage[3]);
 	}
 	
@@ -88,7 +101,9 @@ public class VideoCap {
 		return img;
 	}
 	
-
+	public void endRecording(){
+		this.proccedImgLogger.RUNNING_FLAG = false;
+	}
 
 	public synchronized void setStatus(Status status) {
 		this.status = status;

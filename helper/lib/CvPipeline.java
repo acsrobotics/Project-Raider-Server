@@ -124,7 +124,7 @@ public class CvPipeline {
 	}
 	
 	public CvPipeline drawCircleOnCenter(){
-		if(this.rects != null){
+		if(this.rects.size() != 0){
 			double x_center = this.Image.size().width / 2;
 			double y_center = this.Image.size().height / 2;
 			
@@ -241,10 +241,10 @@ public class CvPipeline {
 		// calculate the order in x_left, x_right, y_top, y_bottom
 		Rect rect = this.rects.getFirst();
 		double[] rectangle = {
-				x_center - (rect.width / 2),
-				x_center + (rect.width / 2),
-				y_center - (rect.height / 2),
-				y_center + (rect.height / 2)
+				rect.x - (rect.width / 2),
+				rect.x + (rect.width / 2),
+				rect.y - (rect.height / 2),
+				rect.y + (rect.height / 2)
 		};
 		
 		double[] circle = {

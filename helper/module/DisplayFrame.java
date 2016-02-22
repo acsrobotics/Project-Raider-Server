@@ -1,9 +1,14 @@
 package module;
 
+
 import java.awt.Graphics;
 import java.awt.GridLayout;
+
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import java.awt.event.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,13 +25,21 @@ public class DisplayFrame extends JFrame {
 	private JPanel thresholdedPane;
 	private JPanel processedPane;
 	
-	
 	UpdateThread backgroundThread;
 	VideoCap videoCap;
 	
 	public DisplayFrame (ImageModule imgModule){
 		
-		parentPane = new JPanel(new GridLayout(2, 2));
+		addWindowListener(new WindowAdapter(){
+			@Override
+			public void windowClosing(WindowEvent e){
+				System.err.println("Intercepting window closing signal");
+				videoCap.endRecording();
+				System.exit(0);
+			}
+		});
+		
+		parentPane = new JPanel(new GridLayout(0, 2));
 		
 		originalPane = new JPanel();
 		thresholdedPane = new JPanel();
@@ -38,8 +51,7 @@ public class DisplayFrame extends JFrame {
 		
 		videoCap = new VideoCap(imgModule);
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100,100,1000, 750);
+		setBounds(100,100,1280, 800);
 		parentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(parentPane);
 		setVisible(true);
@@ -53,6 +65,7 @@ public class DisplayFrame extends JFrame {
 	public Status getStatus(){
 		return this.videoCap.getStatus();
 	}
+	
 	
 	public void paint(Graphics g){
 		try {
@@ -87,4 +100,6 @@ public class DisplayFrame extends JFrame {
 			}
 		}
 	}
+
+
 }
