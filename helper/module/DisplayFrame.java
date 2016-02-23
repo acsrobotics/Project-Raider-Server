@@ -21,7 +21,6 @@ public class DisplayFrame extends JFrame {
 	
 	private JPanel parentPane;
 	
-	private JPanel originalPane;
 	private JPanel thresholdedPane;
 	private JPanel processedPane;
 	
@@ -41,17 +40,15 @@ public class DisplayFrame extends JFrame {
 		
 		parentPane = new JPanel(new GridLayout(0, 2));
 		
-		originalPane = new JPanel();
 		thresholdedPane = new JPanel();
 		processedPane = new JPanel();
 		
-		parentPane.add(originalPane);
 		parentPane.add(thresholdedPane);
 		parentPane.add(processedPane);
 		
 		videoCap = new VideoCap(imgModule);
 		
-		setBounds(100,100,1280, 800);
+		setBounds(100,100,1280, 500);
 		parentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(parentPane);
 		setVisible(true);
@@ -71,9 +68,6 @@ public class DisplayFrame extends JFrame {
 		try {
 			
 			BufferedImage[] imgs = videoCap.getOneFrame();
-			
-			g = originalPane.getGraphics();
-			g.drawImage(imgs[VideoCap.RAW], 0, 0, this);
 			
 			g = thresholdedPane.getGraphics();
 			g.drawImage(imgs[VideoCap.THRESHED], 0, 0, this);

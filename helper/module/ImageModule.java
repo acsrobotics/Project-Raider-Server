@@ -1,6 +1,8 @@
 package module;
 
 import org.opencv.core.Mat;
+import org.opencv.core.Rect;
+import org.opencv.core.Size;
 
 import lib.CvPipeline;
 
@@ -122,6 +124,15 @@ public class ImageModule{
 							.toBGR()
 							.toGray()
 							.findContours()
+							.addFilter((p, r) -> {
+								double radio = (double) r.width / (double)r.height;
+								return radio <= 0.70 && radio >= 0.45 ? true : false;
+							})
+							.addFilter((p, r) -> r.width > 20 && r.height > 30 ? true : false)
+							.addFilter((p, r) -> {
+								Mat img = p.getImage();
+								return isAtTheRim(img, r, 50);
+							})
 							.computeRectsFromContours()
 							.reduceRectsToOne()
 							.drawRects(imgInput)
@@ -132,7 +143,22 @@ public class ImageModule{
 		this.updateSharedBuffer(processor.computeRectRelativeDifference());
 	}
 	
-	
+	private static boolean isAtTheRim(Mat img, Rect rect, int width){
+		Size size = img.size();
+		// order: x-left, x-right, y-top, y-bottom
+		int[] rim = {
+			width,
+			(int) (size.width - width),
+			width,
+			(int) (size.height - width)
+		};
+		if(rect.x > rim[0] && rect.x < rim[1] 
+			&& rect.y > rim[2] && rect.y < rim[3]){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 	private synchronized void updateSharedBuffer(int[] sharedBuffer){
 		this.relative_position = sharedBuffer;

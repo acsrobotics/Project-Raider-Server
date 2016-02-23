@@ -45,6 +45,9 @@ public class VideoCap {
 	LoggerModule proccedImgLogger;
 	Thread proccedImgLoggerThread;
 	
+	LoggerModule thresholdedImgLogger;
+	Thread thresholdedImgLoggerThread;
+	
 	Status status;
 	
 	public VideoCap(ImageModule imgModule) {
@@ -58,8 +61,12 @@ public class VideoCap {
 		this.imgModule = imgModule;
 		
 		this.proccedImgLogger = new LoggerModule("Processed.mp4");
+		this.thresholdedImgLogger = new LoggerModule("Thresholded.mp4");
 		
 		this.proccedImgLoggerThread = new Thread(this.proccedImgLogger);
+		this.thresholdedImgLoggerThread = new Thread(this.thresholdedImgLogger);
+		
+		this.thresholdedImgLoggerThread.start();
 		this.proccedImgLoggerThread.start();
 	}
 	
@@ -82,6 +89,7 @@ public class VideoCap {
 		
 		// load image to background thread to write to a file
 		this.proccedImgLogger.pendingOutputImage(results.get(PROCESSED));
+		this.thresholdedImgLogger.pendingOutputImage(results.get(THRESHED));
 		
 		return results.toArray(new BufferedImage[3]);
 	}
@@ -103,6 +111,7 @@ public class VideoCap {
 	
 	public void endRecording(){
 		this.proccedImgLogger.RUNNING_FLAG = false;
+		this.thresholdedImgLogger.RUNNING_FLAG = false;
 	}
 
 	public synchronized void setStatus(Status status) {
