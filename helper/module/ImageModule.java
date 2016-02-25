@@ -3,6 +3,7 @@ package module;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
+import org.opencv.objdetect.CascadeClassifier;
 
 import lib.CvPipeline;
 
@@ -14,12 +15,17 @@ public class ImageModule{
 	Mat imgThresholded;
 	Mat imgProcessed;
 	
+	CascadeClassifier classifier;
 	
 	public ImageModule(int[] sharedBuffer){
 		this.imgOriginal 		= new Mat();
 		this.imgThresholded 	= new Mat();
 		this.imgProcessed 		= new Mat();
 		this.relative_position 	= sharedBuffer;
+		
+		classifier = new CascadeClassifier();
+		classifier.load("haarcascade_frontalface_alt.xml");
+		
 	}
 	
 	public void processCurrentFrame(){
@@ -32,7 +38,7 @@ public class ImageModule{
 		
 		this.setImgOriginal(processor.resizeTo(640, 480).getImage());
 		
-		
+		//-----------Demo: Simple color-------------------//
 //		this.setImgThresholded(processor
 //								.setImage(imgInput)
 //								.convertToThreeChannel()
@@ -41,6 +47,7 @@ public class ImageModule{
 //								.setHighHSV(150, 90, 70)
 //								.threshold()
 //								.convertToThreeChannel()
+//								.resizeTo(640, 480)
 //								.getImage());
 //		
 //		this.setImgProcessed(processor
@@ -49,96 +56,116 @@ public class ImageModule{
 //							.findContours()
 //							.computeRectsFromContours()
 //							.drawRects(imgInput)
+//							.resizeTo(640, 480)
 //							.getImage());
+
 		
+		//------------------Demo: Face detection------------//
 		
-		// thresh red
+
 		
-		Mat imgThRed = processor
-						.setImage(imgInput)
-						.toHSV()
-						.setLowHSV(150, 120, 40)
-						.setHighHSV(179, 255, 255)
-						.threshold()
-						.getImage();
+		Mat img = processor
+				.setImage(imgInput)
+				.convertToThreeChannel()
+				.toGray()
+				.detectFaces(classifier)
+				.drawRects(imgInput)
+				.resizeTo(640, 480)
+				.getImage();
 		
-		// thresh black
+		this.setImgOriginal(img);
+		this.setImgProcessed(img);
+		this.setImgThresholded(processor.getBlackEmptyMat(imgInput).getImage());
+//		
+		//----------------- Actual Game Code----------------//
 		
-		Mat imgThBlack = processor
-						.setLowHSV(1, 1, 1)
-						.setHighHSV(179, 255, 75)
-						.setImage(imgInput)
-						.toHSV()
-						.threshold()
-						.getImage();
-		
-		// thresh green
-		
-		Mat imgThGreen = processor
-						.setLowHSV(90, 110, 85)
-						.setHighHSV(140, 255, 255)
-						.setImage(imgInput)
-						.toHSV()
-						.threshold()
-						.getImage();
-		
-		// combined 
-		
-		Mat imgCombined = processor
-							.getBlackEmptyMat(imgInput)
-							.convertToThreeChannel()
-							.getImage();
-		
-		Mat tempThreasholed = processor
-								.setLowHSV(1, 1, 1)
-								.setHighHSV(179, 255, 255)
-								.setImage(imgCombined)
-								.combineWith(new CvPipeline()
-												.setImage(imgThBlack)
-												.convertToThreeChannel()
-												.getImage(), 0.0)
-								.combineWith(new CvPipeline()
-													.setImage(imgThGreen)
-													.convertToThreeChannel()
-													.getImage(), 0.5)
-								.threshold()
-								.convertToThreeChannel()
-								.combineWith(new CvPipeline()
-													.setImage(imgThRed)
-													.convertToThreeChannel()
-													.getImage(), 0.5)
-								.setLowHSV(0, 0, 0)
-								.setHighHSV(179, 255, 10)
-								.threshold()
-								.invert()
-								.getImage();
-		
-		this.setImgThresholded(processor
-								.resizeTo(640, 480)
-								.getImage());
-		
-		
-		this.setImgProcessed(processor
-							.setImage(tempThreasholed)
-							.convertToThreeChannel()
-							.toBGR()
-							.toGray()
-							.findContours()
-							.addFilter((p, r) -> {
-								double radio = (double) r.width / (double)r.height;
-								return radio <= 0.70 && radio >= 0.45 ? true : false;
-							})
-							.addFilter((p, r) -> r.width > 20 && r.height > 30 ? true : false)
-							.addFilter((p, r) -> {
-								Mat img = p.getImage();
-								return isAtTheRim(img, r, 50);
-							})
-							.computeRectsFromContours()
-							.reduceRectsToOne()
-							.drawRects(imgInput)
-							.drawCircleOnCenter()
-							.resizeTo(640, 480)
-							.getImage());
+//		// thresh red
+//		
+//		Mat imgThRed = processor
+//						.setImage(imgInput)
+//						.toHSV()
+//						.setLowHSV(150, 120, 40)
+//						.setHighHSV(179, 255, 255)
+//						.threshold()
+//						.getImage();
+//		
+//		// thresh black
+//		
+//		Mat imgThBlack = processor
+//						.setLowHSV(1, 1, 1)
+//						.setHighHSV(179, 255, 75)
+//						.setImage(imgInput)
+//						.toHSV()
+//						.threshold()
+//						.getImage();
+//		
+//		// thresh green
+//		
+//		Mat imgThGreen = processor
+//						.setLowHSV(90, 110, 85)
+//						.setHighHSV(140, 255, 255)
+//						.setImage(imgInput)
+//						.toHSV()
+//						.threshold()
+//						.getImage();
+//		
+//		// combined 
+//		
+//		Mat imgCombined = processor
+//							.getBlackEmptyMat(imgInput)
+//							.convertToThreeChannel()
+//							.getImage();
+//		
+//		Mat tempThreasholed = processor
+//								.setLowHSV(1, 1, 1)
+//								.setHighHSV(179, 255, 255)
+//								.setImage(imgCombined)
+//								.combineWith(new CvPipeline()
+//												.setImage(imgThBlack)
+//												.convertToThreeChannel()
+//												.getImage(), 0.0)
+//								.combineWith(new CvPipeline()
+//													.setImage(imgThGreen)
+//													.convertToThreeChannel()
+//													.getImage(), 0.5)
+//								.threshold()
+//								.convertToThreeChannel()
+//								.combineWith(new CvPipeline()
+//													.setImage(imgThRed)
+//													.convertToThreeChannel()
+//													.getImage(), 0.5)
+//								.setLowHSV(0, 0, 0)
+//								.setHighHSV(179, 255, 10)
+//								.threshold()
+//								.invert()
+//								.getImage();
+//		
+//		this.setImgThresholded(processor
+//								.resizeTo(640, 480)
+//								.getImage());
+//		
+//		
+//		this.setImgProcessed(processor
+//							.setImage(tempThreasholed)
+//							.convertToThreeChannel()
+//							.toBGR()
+//							.toGray()
+//							.findContours()
+//							.addFilter((p, r) -> {
+//								double radio = (double) r.width / (double)r.height;
+//								return radio <= 0.70 && radio >= 0.45 ? true : false;
+//							})
+//							.addFilter((p, r) -> r.width > 20 && r.height > 30 ? true : false)
+//							.addFilter((p, r) -> {
+//								Mat img = p.getImage();
+//								return isAtTheRim(img, r, 50);
+//							})
+//							.computeRectsFromContours()
+//							.reduceRectsToOne()
+//							.drawRects(imgInput)
+//							.drawCircleOnCenter()
+//							.resizeTo(640, 480)
+//							.getImage());
 		
 		this.updateSharedBuffer(processor.computeRectRelativeDifference());
 	}

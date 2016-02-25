@@ -9,6 +9,7 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
@@ -16,9 +17,9 @@ import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
+import org.opencv.objdetect.CascadeClassifier;
 
 import lib.FilterPipeline.Filter;
-
 
 /**
  * For specific use of this library, please refer to this repository
@@ -190,6 +191,19 @@ public class CvPipeline {
 		Mat out = new Mat();
 		Imgproc.resize(this.Image, out, new Size(width, height));
 		this.Image = out;
+		return this;
+	}
+	
+	public CvPipeline detectFaces(CascadeClassifier classifier){
+		Mat frame = new Mat();
+		Imgproc.equalizeHist(this.Image, frame);
+		MatOfRect rects = new MatOfRect();
+		classifier.detectMultiScale(frame, rects, 1.1, 2, 0, new Size(30,30), new Size(300, 300));
+		for(Rect r : rects.toArray()){
+			if(filters.eval(r)){
+				this.rects.add(r);
+			}
+		}
 		return this;
 	}
 	

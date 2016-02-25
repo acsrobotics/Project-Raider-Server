@@ -87,7 +87,7 @@ public class DisplayFrame extends JFrame {
 			while(true){
 				repaint();
 				try{
-					Thread.sleep(30);
+					Thread.sleep(35);
 				}catch (InterruptedException e){
 					break;
 				}
