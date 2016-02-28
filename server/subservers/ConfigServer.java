@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /**
  * Config Server is designed to provide essential configuration
@@ -28,11 +30,23 @@ public class ConfigServer implements Runnable {
 				System.out.println("Recieved client request...");
 				String content = read("config.json");
 				
+				Scanner in = new Scanner(client.getInputStream());
 				PrintWriter out = new PrintWriter(client.getOutputStream());
+				
+				String str = "";
+				try{
+					str = in.nextLine();
+				}catch(NoSuchElementException e){
+					e.printStackTrace();
+				}finally{
+					System.out.println(str);
+				}
+				
 				out.write(content);
 				System.out.println("Config Server >> Message out");
 				out.close();
 				client.close();
+				in.close();
 			}
 		} catch (IOException e) {
 		

@@ -198,7 +198,7 @@ public class CvPipeline {
 		Mat frame = new Mat();
 		Imgproc.equalizeHist(this.Image, frame);
 		MatOfRect rects = new MatOfRect();
-		classifier.detectMultiScale(frame, rects, 1.1, 2, 0, new Size(30,30), new Size(300, 300));
+		classifier.detectMultiScale(frame, rects, 2.2, 2, 0, new Size(60,60), new Size(300, 300));
 		for(Rect r : rects.toArray()){
 			if(filters.eval(r)){
 				this.rects.add(r);

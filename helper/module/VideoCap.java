@@ -52,9 +52,9 @@ public class VideoCap {
 	
 	public VideoCap(ImageModule imgModule) {
 		cap = new VideoCapture();
-		//cap.open("http://axis-camera.local/mjpg/video.mjpg");
+		cap.open("http://axis-camera.local/mjpg/video.mjpg");
 		//cap.open("C:\\Users\\Zhang\\Documents\\Share\\dior.mp4");
-		cap.open("C:\\Users\\Zhang\\Downloads\\temp\\XXX.mp4");
+		//cap.open("C:\\Users\\Zhang\\Downloads\\temp\\XXX.mp4");
 		if(!cap.isOpened()){
 			this.setStatus(Status.INVALID_CAMERA);
 		}

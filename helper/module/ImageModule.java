@@ -70,6 +70,7 @@ public class ImageModule{
 				.toGray()
 				.detectFaces(classifier)
 				.drawRects(imgInput)
+				.drawCircleOnCenter()
 				.resizeTo(640, 480)
 				.getImage();
 		

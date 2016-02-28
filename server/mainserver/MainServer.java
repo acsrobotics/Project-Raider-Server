@@ -28,11 +28,11 @@ public class MainServer {
 	public static void main(String[] args) {
 		Thread addrServerThread = new Thread(new PublicServer());
 		Thread configServerThread = new Thread(new ConfigServer());
-		Thread visioNServerThread = new Thread(new VisionServer());
+		//Thread visioNServerThread = new Thread(new VisionServer());
 		
 		addrServerThread.start();
 		configServerThread.start();
-		visioNServerThread.start();
+		//visioNServerThread.start();
 	}
 
 }
