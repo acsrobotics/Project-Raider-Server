@@ -11,6 +11,11 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.VideoCapture;
 
+/**
+ * All status code update should be handled at this layer
+ * @author Zhang
+ *
+ */
 public class VideoCap {
 	
 	static {
@@ -54,7 +59,7 @@ public class VideoCap {
 	String hostName = "C:\\Users\\Zhang\\Downloads\\temp\\XXX.mp4";
 	// Camera: "http://axis-camera.local/mjpg/video.mjpg"
 	// Field footage: "C:\\Users\\Zhang\\Documents\\Share\\dior.mp4"
-	// Just for fun: "C:\\Users\\Zhang\\Downloads\\temp\\XXX.mp4"
+	// Just for fun: "C:\\Users\\Zhang\\Downloads\\temp\\XX.mp4"
 	
 	public VideoCap(ImageModule imgModule) {
 		

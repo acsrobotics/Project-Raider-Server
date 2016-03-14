@@ -1,7 +1,11 @@
 package module;
 
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 
 import java.awt.event.WindowEvent;
@@ -76,8 +80,34 @@ public class DisplayFrame extends JFrame {
 			g.drawImage(imgs[VideoCap.PROCESSED], 0, 0, this);
 			
 		} catch (Exception e){
+			
+			//--------Paint the panel black and display "SIGNAL LOST"----------------//
+			BufferedImage img = new BufferedImage(640, 480, BufferedImage.TYPE_3BYTE_BGR);
+			Graphics2D g2d = img.createGraphics();
+			g2d.setColor(new Color(0, 0, 0, 0));
+			g2d.fillRect(0, 0, 640, 480);
+			
+			g2d.setPaint(Color.red);
+			g2d.setFont(new Font("Serif", Font.BOLD, 20));
+			String s = "SIGNAL LOST";
+			FontMetrics fm = g2d.getFontMetrics();
+			int x = (img.getWidth() - fm.stringWidth(s))/2;
+			int y = img.getHeight() / 2;
+			g2d.drawString(s, x, y);
+			
+			g2d.dispose();
+			//----------------------------------------------------------------------------//
+			
+			
+			// update the image display panel 
+			g = thresholdedPane.getGraphics();
+			g.drawImage(img, 0, 0, this);
+			
+			g = processedPane.getGraphics();
+			g.drawImage(img, 0, 0, this);
+			
+			e.printStackTrace();
 			videoCap.tryConnectCamera();
-			// TODO display black image with text "SIGNAL LOST" 
 		} 
 	}
 	
