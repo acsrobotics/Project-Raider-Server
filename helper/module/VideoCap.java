@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
+import java.net.NoRouteToHostException;
 import java.util.ArrayList;
 
 import org.opencv.core.Core;
@@ -50,14 +51,17 @@ public class VideoCap {
 	
 	Status status;
 	
+	String hostName = "C:\\Users\\Zhang\\Downloads\\temp\\XXX.mp4";
+	// Camera: "http://axis-camera.local/mjpg/video.mjpg"
+	// Field footage: "C:\\Users\\Zhang\\Documents\\Share\\dior.mp4"
+	// Just for fun: "C:\\Users\\Zhang\\Downloads\\temp\\XXX.mp4"
+	
 	public VideoCap(ImageModule imgModule) {
+		
 		cap = new VideoCapture();
-		cap.open("http://axis-camera.local/mjpg/video.mjpg");
-		//cap.open("C:\\Users\\Zhang\\Documents\\Share\\dior.mp4");
-		//cap.open("C:\\Users\\Zhang\\Downloads\\temp\\XXX.mp4");
-		if(!cap.isOpened()){
-			this.setStatus(Status.INVALID_CAMERA);
-		}
+
+		this.tryConnectCamera();
+		
 		this.imgModule = imgModule;
 		
 		this.proccedImgLogger = new LoggerModule("Processed.mp4");
@@ -72,17 +76,24 @@ public class VideoCap {
 	
 	public BufferedImage[] getOneFrame() throws IOException{
 		Mat currentFrame = new Mat();
-		if(!cap.read(currentFrame)){
-			this.setStatus(Status.READ_ERROR);
-			return null;
+		ArrayList<BufferedImage> results = new ArrayList<>(3);
+		
+		
+
+		
+		try{		
+			if (!cap.read(currentFrame)) {
+				this.setStatus(Status.READ_ERROR);
+				throw new NoRouteToHostException("Fetching new Frame failed");
+			}
+			imgModule.setImgOriginal(currentFrame);
+			this.setStatus(Status.AOK);
+		}catch(Exception e){
+			throw e;
 		}
 		
-		this.setStatus(Status.AOK);
-		
-		imgModule.setImgOriginal(currentFrame);
 		imgModule.processCurrentFrame();
 		
-		ArrayList<BufferedImage> results = new ArrayList<>(3);
 		results.add(toBufferedImage(imgModule.getImgOriginal()));
 		results.add(toBufferedImage(imgModule.getImgThresholded()));
 		results.add(toBufferedImage(imgModule.getImgProcessed()));
@@ -92,6 +103,26 @@ public class VideoCap {
 		this.thresholdedImgLogger.pendingOutputImage(results.get(THRESHED));
 		
 		return results.toArray(new BufferedImage[3]);
+	}
+	
+	public void tryConnectCamera(){
+		
+		// if it is already opened 
+		if(cap.isOpened()){
+			// close it
+			cap.release();
+		}
+		
+		// try open
+		cap.open(this.hostName);
+		
+		// if it is not opened, keep trying
+		while(!cap.isOpened()){
+			this.setStatus(Status.INVALID_CAMERA);
+			cap.open(this.hostName);
+		}
+		
+		this.setStatus(Status.AOK);
 	}
 	
 	public BufferedImage toBufferedImage(Mat mat) throws IOException {

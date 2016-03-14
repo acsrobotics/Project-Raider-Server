@@ -75,11 +75,10 @@ public class DisplayFrame extends JFrame {
 			g = processedPane.getGraphics();
 			g.drawImage(imgs[VideoCap.PROCESSED], 0, 0, this);
 			
-		} catch (NullPointerException e){
-			System.err.println("VideoCap Error: " + "Unable to update frame");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e){
+			videoCap.tryConnectCamera();
+			// TODO display black image with text "SIGNAL LOST" 
+		} 
 	}
 	
 	class UpdateThread extends Thread{
