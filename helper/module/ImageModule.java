@@ -24,8 +24,8 @@ public class ImageModule{
 		this.relative_position 	= sharedBuffer;
 		
 		//----------Uncommented following lines for facial detecton------//
-		classifier = new CascadeClassifier();
-		classifier.load("haarcascade_frontalface_alt.xml");
+//		classifier = new CascadeClassifier();
+//		classifier.load("haarcascade_frontalface_alt.xml");
 		
 	}
 	
@@ -65,24 +65,24 @@ public class ImageModule{
 		
 
 		
-		Mat img = processor
-				.setImage(imgInput)
-				.convertToThreeChannel()
-				.toGray()
-				.detectFaces(classifier)
-				.drawRects(imgInput)
-				.drawCircleOnCenter()
-				.resizeTo(640, 480)
-				.getImage();
-		
-		this.setImgOriginal(img);
-		this.setImgProcessed(img);
-		this.setImgThresholded(processor.getBlackEmptyMat(imgInput).getImage());
+//		Mat img = processor
+//				.setImage(imgInput)
+//				.convertToThreeChannel()
+//				.toGray()
+//				.detectFaces(classifier)
+//				.drawRects(imgInput)
+//				.drawCircleOnCenter()
+//				.resizeTo(640, 480)
+//				.getImage();
+//		
+//		this.setImgOriginal(img);
+//		this.setImgProcessed(img);
+//		this.setImgThresholded(processor.getBlackEmptyMat(imgInput).getImage());
 //		
 		//----------------- Actual Game Code----------------//
 		
-//		// thresh red
-//		
+		// thresh red
+		
 //		Mat imgThRed = processor
 //						.setImage(imgInput)
 //						.toHSV()
@@ -91,18 +91,18 @@ public class ImageModule{
 //						.threshold()
 //						.getImage();
 //		
-//		// thresh black
-//		
-//		Mat imgThBlack = processor
-//						.setLowHSV(1, 1, 1)
-//						.setHighHSV(179, 255, 75)
-//						.setImage(imgInput)
-//						.toHSV()
-//						.threshold()
-//						.getImage();
-//		
-//		// thresh green
-//		
+		// thresh black
+		
+		Mat imgThBlack = processor
+						.setLowHSV(1, 1, 1)
+						.setHighHSV(179, 255, 75)
+						.setImage(imgInput)
+						.toHSV()
+						.threshold()
+						.getImage();
+		
+		// thresh green
+		
 //		Mat imgThGreen = processor
 //						.setLowHSV(90, 110, 85)
 //						.setHighHSV(140, 255, 255)
@@ -111,8 +111,8 @@ public class ImageModule{
 //						.threshold()
 //						.getImage();
 //		
-//		// combined 
-//		
+		// combined 
+		
 //		Mat imgCombined = processor
 //							.getBlackEmptyMat(imgInput)
 //							.convertToThreeChannel()
@@ -141,33 +141,33 @@ public class ImageModule{
 //								.threshold()
 //								.invert()
 //								.getImage();
-//		
-//		this.setImgThresholded(processor
-//								.resizeTo(640, 480)
-//								.getImage());
-//		
-//		
-//		this.setImgProcessed(processor
-//							.setImage(tempThreasholed)
-//							.convertToThreeChannel()
-//							.toBGR()
-//							.toGray()
-//							.findContours()
-//							.addFilter((p, r) -> {
-//								double radio = (double) r.width / (double)r.height;
-//								return radio <= 0.70 && radio >= 0.45 ? true : false;
-//							})
-//							.addFilter((p, r) -> r.width > 20 && r.height > 30 ? true : false)
-//							.addFilter((p, r) -> {
-//								Mat img = p.getImage();
-//								return isAtTheRim(img, r, 50);
-//							})
-//							.computeRectsFromContours()
-//							.reduceRectsToOne()
-//							.drawRects(imgInput)
-//							.drawCircleOnCenter()
-//							.resizeTo(640, 480)
-//							.getImage());
+		
+		this.setImgThresholded(processor
+								.resizeTo(640, 480)
+								.getImage());
+		
+		
+		this.setImgProcessed(processor
+							.setImage(imgThBlack)
+							.convertToThreeChannel()
+							.toBGR()
+							.toGray()
+							.findContours()
+							.addFilter((p, r) -> {
+								double radio = (double) r.width / (double)r.height;
+								return radio <= 0.70 && radio >= 0.45 ? true : false;
+							})
+							.addFilter((p, r) -> r.width > 20 && r.height > 30 ? true : false)
+							.addFilter((p, r) -> {
+								Mat img = p.getImage();
+								return isAtTheRim(img, r, 50);
+							})
+							.computeRectsFromContours()
+							.reduceRectsToOne()
+							.drawRects(imgInput)
+							.drawCircleOnCenter()
+							.resizeTo(640, 480)
+							.getImage());
 //		
 		this.updateSharedBuffer(processor.computeRectRelativeDifference());
 	}

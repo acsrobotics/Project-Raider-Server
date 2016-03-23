@@ -56,7 +56,7 @@ public class VideoCap {
 	
 	Status status;
 	
-	String hostName = "C:\\Users\\Zhang\\Downloads\\temp\\XXX.mp4";
+	String hostName = "C:\\Users\\Zhang\\Downloads\\temp\\XX.mp4";
 	// Camera: "http://axis-camera.local/mjpg/video.mjpg"
 	// Field footage: "C:\\Users\\Zhang\\Documents\\Share\\dior.mp4"
 	// Just for fun: "C:\\Users\\Zhang\\Downloads\\temp\\XX.mp4"

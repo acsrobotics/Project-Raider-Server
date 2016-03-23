@@ -1,8 +1,6 @@
 package mainserver;
 
-import subservers.ConfigServer;
-import subservers.PublicServer;
-import subservers.VisionServer;
+import subservers.*;
 
 /**
  * The main server runs three subservers
