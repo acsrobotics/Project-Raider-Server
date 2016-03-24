@@ -1,17 +1,8 @@
 {
-    "drivetrain": {
-        
-        "drive_modifier": 1.0,
-        "gyro_sensitivity": 0.007
-    },
-    
-    "bucket": {
-        "speed":{
-            "fold_speed":1.0,
-            "unfold_speed":-1.0,
-            "intake_speed":0.3
-        }
-        
-    }
-
+    "GYRO_SENSITIVITY": 0.007,
+    "DRIVE_MODIFIER":   1.0,
+    "MOTOR_INTAKE_SPEED": 1.0,
+    "MOTOR_OUTTAKE_SPEED": -1.0,
+    "BUCKET_FOLD_SPEED": 0.4,
+    "BUCKET_UNFOLD_SPEED": -0.5
 }
