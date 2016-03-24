@@ -11,7 +11,7 @@ import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
+import java.net.NoRouteToHostException;
 import java.awt.event.*;
 
 import javax.swing.JFrame;
@@ -107,7 +107,18 @@ public class DisplayFrame extends JFrame {
 			g.drawImage(img, 0, 0, this);
 			
 			e.printStackTrace();
-			videoCap.tryConnectCamera();
+			try {
+				videoCap.tryConnectCamera();
+			} catch (NoRouteToHostException e1) {
+				// TODO Auto-generated catch block
+				try {
+					Thread.sleep(3000);
+					videoCap.tryConnectCamera();
+				} catch (Exception e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+			}
 		} 
 	}
 	

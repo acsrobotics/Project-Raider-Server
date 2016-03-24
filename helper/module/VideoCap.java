@@ -56,7 +56,7 @@ public class VideoCap {
 	
 	Status status;
 	
-	String hostName = "C:\\Users\\Zhang\\Downloads\\temp\\XX.mp4";
+	String hostName = "C:\\Users\\Student\\temp\\XX.mp4";
 	// Camera: "http://axis-camera.local/mjpg/video.mjpg"
 	// Field footage: "C:\\Users\\Zhang\\Documents\\Share\\dior.mp4"
 	// Just for fun: "C:\\Users\\Zhang\\Downloads\\temp\\XX.mp4"
@@ -65,7 +65,7 @@ public class VideoCap {
 		
 		cap = new VideoCapture();
 
-		this.tryConnectCamera();
+		cap.open(this.hostName);
 		
 		this.imgModule = imgModule;
 		
@@ -110,7 +110,7 @@ public class VideoCap {
 		return results.toArray(new BufferedImage[3]);
 	}
 	
-	public void tryConnectCamera(){
+	public void tryConnectCamera() throws NoRouteToHostException{
 		
 		// if it is already opened 
 		if(cap.isOpened()){
@@ -122,9 +122,10 @@ public class VideoCap {
 		cap.open(this.hostName);
 		
 		// if it is not opened, keep trying
-		while(!cap.isOpened()){
+		if(!cap.isOpened()){
 			this.setStatus(Status.INVALID_CAMERA);
-			cap.open(this.hostName);
+			System.err.println("Retry");
+			throw new NoRouteToHostException();
 		}
 		
 		this.setStatus(Status.AOK);
