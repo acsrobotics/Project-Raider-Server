@@ -26,11 +26,29 @@ public class MainServer {
 	public static void main(String[] args) {
 		Thread addrServerThread = new Thread(new PublicServer());
 		Thread configServerThread = new Thread(new ConfigServer());
-//		Thread visionServerThread = new Thread(new VisionServer());
+		Thread visionServerThread = new Thread(new VisionServer());
 		
 		addrServerThread.start();
 		configServerThread.start();
-//		visionServerThread.start();
+		visionServerThread.start();
+		Thread[] ta = {addrServerThread, configServerThread, visionServerThread};
+		OuterWhile: while (true) {
+			for (Thread t : ta) {
+				if (t.isAlive()) {
+					while (!t.interrupted()) {
+						try {
+							Thread.currentThread().sleep(1);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				} else if (!t.isAlive()) {
+					System.out.println("Terminating main thread: '" + Thread.currentThread().getName() + "' because all of the"
+							+ " child server threads have died or exited.");
+					break OuterWhile;
+				}
+			}
+		}
 	}
 
 }
