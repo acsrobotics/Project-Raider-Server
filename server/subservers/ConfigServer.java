@@ -33,15 +33,15 @@ public class ConfigServer implements Runnable {
 				Scanner in = new Scanner(client.getInputStream());
 				PrintWriter out = new PrintWriter(client.getOutputStream());
 				
-				String str = "";
-				try{
-					str = in.nextLine();
-				}catch(NoSuchElementException e){
-					e.printStackTrace();
-				}finally{
-					System.out.println(str);
-				}
-				
+//				String str = "";
+//				try{
+//					str = in.nextLine();
+//				}catch(NoSuchElementException e){
+//					e.printStackTrace();
+//				}finally{
+//					System.out.println(str);
+//				}
+//				
 				out.write(content);
 				System.out.println("Config Server >> Message out");
 				out.close();
