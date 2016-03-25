@@ -8,17 +8,17 @@ import org.opencv.core.Rect;
 public class FilterPipeline {
 	
 	public interface Filter{
-		public boolean test(CvPipeline pipe, Rect rect);
+		public boolean test(CvEngine pipe, Rect rect);
 	}
 	
 	Collection<Filter> filterProceduers;
-	CvPipeline pipe;
+	CvEngine pipe;
 	
 	public FilterPipeline(){
 		this.filterProceduers = new LinkedList<>();
 	}
 	
-	public void injectPipeDependency(CvPipeline pipe){
+	public void injectPipeDependency(CvEngine pipe){
 		this.pipe = pipe;
 	}
 	

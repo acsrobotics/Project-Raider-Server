@@ -5,7 +5,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Size;
 import org.opencv.objdetect.CascadeClassifier;
 
-import lib.CvPipeline;
+import lib.CvEngine;
 
 public class ImageModule{
 	
@@ -30,7 +30,7 @@ public class ImageModule{
 	}
 	
 	public void processCurrentFrame(){
-		CvPipeline processor = new CvPipeline();
+		CvEngine processor = new CvEngine();
 		Mat imgInput = new Mat();
 		
 		imgInput = processor
