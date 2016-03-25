@@ -4,7 +4,7 @@ import subservers.*;
 
 /**
  * The main server runs three subservers
- * 1. Public Server, it is essentially an UDP echo server that 
+ * 1. Public Server, it is essentially an UDP echo server that
  *    expose server's IP address to client who broadcast UDP 
  *    request message since the IP address of both server and 
  *    client will be configured using DHCP during the event
