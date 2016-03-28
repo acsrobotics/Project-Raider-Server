@@ -1,24 +1,15 @@
-package module;
+package helper.module;
 
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
+import helper.module.VideoCap.Status;
 
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.NoRouteToHostException;
-import java.awt.event.*;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import module.VideoCap.Status;
 
 @SuppressWarnings("serial")
 public class DisplayFrame extends JFrame {

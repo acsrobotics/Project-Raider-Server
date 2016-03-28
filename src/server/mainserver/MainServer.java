@@ -1,6 +1,6 @@
-package mainserver;
+package server.mainserver;
 
-import subservers.*;
+import server.subservers.*;
 
 /**
  * The main server runs three subservers
@@ -31,27 +31,6 @@ public class MainServer {
 		addrServerThread.start();
 		configServerThread.start();
 		visionServerThread.start();
-<<<<<<< HEAD
-		Thread[] ta = {addrServerThread, configServerThread, visionServerThread};
-		OuterWhile: while (true) {
-			for (Thread t : ta) {
-				if (t.isAlive()) {
-					while (!t.interrupted()) {
-						try {
-							Thread.currentThread().sleep(1);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				} else if (!t.isAlive()) {
-					System.out.println("Terminating main thread: '" + Thread.currentThread().getName() + "' because all of the"
-							+ " child server threads have died or exited.");
-					break OuterWhile;
-				}
-			}
-		}
-=======
->>>>>>> A_New_Branch
 	}
 
 }

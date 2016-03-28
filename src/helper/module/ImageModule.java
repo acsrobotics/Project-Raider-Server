@@ -1,11 +1,11 @@
-package module;
+package helper.module;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
 import org.opencv.objdetect.CascadeClassifier;
 
-import lib.CvEngine;
+import helper.lib.CvEngine;
 
 public class ImageModule{
 	
@@ -79,96 +79,62 @@ public class ImageModule{
 //		this.setImgProcessed(img);
 //		this.setImgThresholded(processor.getBlackEmptyMat(imgInput).getImage());
 //		
-		//----------------- Actual Game Code----------------//
+		//----------------- Game Code V1 ----------------//
 		
-		// thresh red
-		
-//		Mat imgThRed = processor
-//						.setImage(imgInput)
-//						.toHSV()
-//						.setLowHSV(150, 120, 40)
-//						.setHighHSV(179, 255, 255)
-//						.threshold()
-//						.getImage();
-//		
-		// thresh black
-		
-		Mat imgThBlack = processor
-						.setLowHSV(1, 1, 1)
-						.setHighHSV(179, 255, 75)
-						.setImage(imgInput)
-						.toHSV()
-						.threshold()
-						.getImage();
-		
-		// thresh green
-		
-//		Mat imgThGreen = processor
-//						.setLowHSV(90, 110, 85)
-//						.setHighHSV(140, 255, 255)
+//		Mat imgThBlack = processor
+//						.setLowHSV(1, 1, 1)
+//						.setHighHSV(179, 255, 75)
 //						.setImage(imgInput)
 //						.toHSV()
 //						.threshold()
 //						.getImage();
 //		
-		// combined 
-		
-//		Mat imgCombined = processor
-//							.getBlackEmptyMat(imgInput)
+//		this.setImgThresholded(processor
+//								.resizeTo(640, 480)
+//								.getImage());
+//		
+//		
+//		this.setImgProcessed(processor
+//							.setImage(imgThBlack)
 //							.convertToThreeChannel()
-//							.getImage();
-//		
-//		Mat tempThreasholed = processor
-//								.setLowHSV(1, 1, 1)
-//								.setHighHSV(179, 255, 255)
-//								.setImage(imgCombined)
-//								.combineWith(new CvPipeline()
-//												.setImage(imgThBlack)
-//												.convertToThreeChannel()
-//												.getImage(), 0.0)
-//								.combineWith(new CvPipeline()
-//													.setImage(imgThGreen)
-//													.convertToThreeChannel()
-//													.getImage(), 0.5)
-//								.threshold()
-//								.convertToThreeChannel()
-//								.combineWith(new CvPipeline()
-//													.setImage(imgThRed)
-//													.convertToThreeChannel()
-//													.getImage(), 0.5)
-//								.setLowHSV(0, 0, 0)
-//								.setHighHSV(179, 255, 10)
-//								.threshold()
-//								.invert()
-//								.getImage();
+//							.toBGR()
+//							.toGray()
+//							.findContours()
+//							.addFilter((p, r) -> {
+//								double radio = (double) r.width / (double)r.height;
+//								return radio <= 0.70 && radio >= 0.45 ? true : false;
+//							})
+//							.addFilter((p, r) -> r.width > 20 && r.height > 30 ? true : false)
+//							.addFilter((p, r) -> {
+//								Mat img = p.getImage();
+//								return isAtTheRim(img, r, 50);
+//							})
+//							.computeRectsFromContours()
+//							.reduceRectsToOne()
+//							.drawRects(imgInput)
+//							.drawCircleOnCenter()
+//							.resizeTo(640, 480)
+//							.getImage());
+
+		//-------------- Game Code V2 ----------------------//
 		
+		// TODO Improve performance 
+
 		this.setImgThresholded(processor
+								.setImage(imgInput.clone())
+								.convertToThreeChannel()
+								.toGray()
+								.gaussianBlur(new Size(5, 5), 0, 0)
+								.detectEdge(30, 170)
 								.resizeTo(640, 480)
 								.getImage());
 		
-		
 		this.setImgProcessed(processor
-							.setImage(imgThBlack)
-							.convertToThreeChannel()
-							.toBGR()
-							.toGray()
-							.findContours()
-							.addFilter((p, r) -> {
-								double radio = (double) r.width / (double)r.height;
-								return radio <= 0.70 && radio >= 0.45 ? true : false;
-							})
-							.addFilter((p, r) -> r.width > 20 && r.height > 30 ? true : false)
-							.addFilter((p, r) -> {
-								Mat img = p.getImage();
-								return isAtTheRim(img, r, 50);
-							})
-							.computeRectsFromContours()
-							.reduceRectsToOne()
-							.drawRects(imgInput)
-							.drawCircleOnCenter()
-							.resizeTo(640, 480)
-							.getImage());
-//		
+								.detectLinesQuick(150, 30, 50)
+								.drawLines(imgInput)
+								.resizeTo(640, 480)
+								.getImage());	
+		
 		this.updateSharedBuffer(processor.computeRectRelativeDifference());
 	}
 	

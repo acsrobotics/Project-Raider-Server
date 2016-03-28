@@ -1,9 +1,9 @@
-package lib;
+package helper.lib;
+
+import org.opencv.core.Rect;
 
 import java.util.Collection;
 import java.util.LinkedList;
-
-import org.opencv.core.Rect;
 
 public class FilterPipeline {
 	
