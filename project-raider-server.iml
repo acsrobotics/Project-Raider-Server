@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="xuggle" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="file://$USER_HOME$/Documents/lib/xuggle" />
+          <root url="file://$USER_HOME$/Documents/lib/commons-cli-1.1" />
+          <root url="file://$USER_HOME$/Documents/lib/logback-1.0.0" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="file://$USER_HOME$/Documents/lib/commons-cli-1.1/docs/apidocs" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/site/apidocs" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/site/testapidocs" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="file://$USER_HOME$/Documents/lib/logback-1.0.0" />
+          <root url="file://$USER_HOME$/Documents/lib/logback-1.0.0/logback-access/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/logback-1.0.0/logback-access/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/logback-1.0.0/logback-classic/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/logback-1.0.0/logback-classic/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/logback-1.0.0/logback-core/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/logback-1.0.0/logback-core/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/logback-1.0.0/logback-examples/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/integration/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/jcl-over-slf4j/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/jcl-over-slf4j/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/jul-to-slf4j/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/jul-to-slf4j/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/log4j-over-slf4j/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/log4j-over-slf4j/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/osgi-over-slf4j/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-android/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-android/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-api/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-api/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-ext/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-ext/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-jcl/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-jcl/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-jdk14/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-jdk14/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-log4j12/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-log4j12/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-migrator/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-migrator/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-nop/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-nop/src/test/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-simple/src/main/java" />
+          <root url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17/slf4j-simple/src/test/java" />
+        </SOURCES>
+        <jarDirectory url="file://$USER_HOME$/Documents/lib/commons-cli-1.1" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/Documents/lib/logback-1.0.0" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/Documents/lib/xuggle" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/Documents/lib/logback-1.0.0" recursive="false" type="SOURCES" />
+        <jarDirectory url="file://$USER_HOME$/Documents/lib/slf4j-1.7.17" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="java" level="application" />
+  </component>
+</module>
